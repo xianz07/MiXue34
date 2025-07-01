@@ -1,0 +1,239 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>蜜雪冰城配方记忆工具</title>
+    <link rel="stylesheet" href="style.css">
+    <!-- 一个简单的 Emoji Favicon -->
+    <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>📚</text></svg>">
+</head>
+<body>
+
+    <!-- 所有视图的主容器 -->
+    <main>
+
+        <!-- ==================================================== -->
+        <!-- 主界面 (HOME VIEW) -->
+        <!-- ==================================================== -->
+        <section id="home-view" class="view">
+            <header class="main-header">
+                <h1>蜜雪冰城配方记忆工具</h1>
+                <p>高效学习，轻松考核</p>
+            </header>
+
+            <div class="progress-container">
+                <h2>学习进度</h2>
+                <div class="progress-stats">
+                    <span id="mastered-count">0</span> / <span id="total-count">0</span>
+                </div>
+                <div class="progress-bar-container">
+                    <div id="progress-bar" class="progress-bar"></div>
+                </div>
+            </div>
+
+            <nav class="navigation-grid">
+                <button id="nav-learn" class="nav-button">
+                    <span class="nav-icon">📖</span>
+                    <span>学习模式</span>
+                    <small>按顺序浏览配方</small>
+                </button>
+                <button id="nav-memory" class="nav-button">
+                    <span class="nav-icon">🧠</span>
+                    <span>记忆模式</span>
+                    <small>翻转卡片自测</small>
+                </button>
+                <button id="nav-quiz" class="nav-button">
+                    <span class="nav-icon">✏️</span>
+                    <span>测验模式</span>
+                    <small>检验学习成果</small>
+                </button>
+                <button id="nav-errors" class="nav-button">
+                    <span class="nav-icon">❌</span>
+                    <span>错题本</span>
+                    <small>复习薄弱环节</small>
+                </button>
+                <button id="nav-library" class="nav-button full-width">
+                    <span class="nav-icon">🗂️</span>
+                    <span>题库总览</span>
+                    <small>搜索和查找所有配方</small>
+                </button>
+            </nav>
+        </section>
+
+        <!-- ==================================================== -->
+        <!-- 学习模式 (LEARN VIEW) -->
+        <!-- ==================================================== -->
+        <section id="learn-view" class="view hidden">
+            <header class="view-header">
+                <button class="back-button">← 返回</button>
+                <h2>学习模式</h2>
+            </header>
+            <div class="card-container">
+                <div class="card">
+                    <div class="card-header">
+                        <p id="learn-card-category" class="card-category">分类</p>
+                        <h3 id="learn-card-name" class="card-name">产品名称</h3>
+                    </div>
+                    <div id="learn-card-content" class="card-content">
+                        <!-- JS 填充配方内容 -->
+                    </div>
+                </div>
+            </div>
+            <div class="view-controls">
+                <button id="learn-prev-btn">上一条</button>
+                <button id="learn-next-btn">下一条</button>
+            </div>
+        </section>
+
+        <!-- ==================================================== -->
+        <!-- 记忆模式 (MEMORY VIEW) -->
+        <!-- ==================================================== -->
+        <section id="memory-view" class="view hidden">
+            <header class="view-header">
+                <button class="back-button">← 返回</button>
+                <h2>记忆模式</h2>
+            </header>
+            <div class="card-container">
+                <!-- 可翻转卡片容器 -->
+                <div id="memory-card" class="memory-card">
+                    <div class="card-inner">
+                        <!-- 卡片正面 -->
+                        <div class="card card-front">
+                            <h3 id="memory-card-name">点击卡片查看答案</h3>
+                        </div>
+                        <!-- 卡片背面 -->
+                        <div class="card card-back">
+                             <div class="card-header">
+                                <p id="memory-card-category" class="card-category">分类</p>
+                                <h3 id="memory-card-name-back" class="card-name">产品名称</h3>
+                            </div>
+                            <div id="memory-card-content" class="card-content">
+                                <!-- JS 填充配方内容 -->
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+             <div class="view-controls">
+                <button id="memory-prev-btn">上一条</button>
+                <button id="mastered-btn" class="primary-action-btn">我记住了</button>
+                <button id="memory-next-btn">下一条</button>
+            </div>
+        </section>
+
+        <!-- ==================================================== -->
+        <!-- 测验模式 (QUIZ VIEW) -->
+        <!-- ==================================================== -->
+        <section id="quiz-view" class="view hidden">
+            <header class="view-header">
+                <button class="back-button">← 返回</button>
+                <h2>测验模式</h2>
+            </header>
+            <!-- 测验设置 -->
+            <div id="quiz-setup">
+                <label for="quiz-count">选择题目数量:</label>
+                <input type="number" id="quiz-count" value="10" min="1" max="50">
+                <button id="start-quiz-btn">开始测验</button>
+            </div>
+            <!-- 测验主界面 -->
+            <div id="quiz-main" class="hidden">
+                <p class="quiz-progress"><span id="current-q-num">1</span> / <span id="total-q-num">10</span></p>
+                <div class="card">
+                    <div id="question-area" class="card-content">
+                        <!-- JS 填充问题 -->
+                    </div>
+                </div>
+                <div id="answer-area">
+                     <!-- JS 填充答案选项 -->
+                </div>
+                <div id="quiz-feedback" class="feedback-area"></div>
+                <div class="view-controls">
+                    <button id="submit-answer-btn">提交答案</button>
+                    <button id="next-question-btn" class="hidden">下一题</button>
+                </div>
+            </div>
+        </section>
+
+        <!-- ==================================================== -->
+        <!-- 错题本 (ERROR LOG VIEW) -->
+        <!-- ==================================================== -->
+        <section id="error-view" class="view hidden">
+            <header class="view-header">
+                <button class="back-button">← 返回</button>
+                <h2>错题本</h2>
+            </header>
+            <div id="error-list-container">
+                <!-- JS 填充错题列表 -->
+                <p class="empty-state">你太棒了，还没有错题！</p>
+            </div>
+        </section>
+
+        <!-- ==================================================== -->
+        <!-- 题库总览 (LIBRARY VIEW) -->
+        <!-- ==================================================== -->
+        <section id="library-view" class="view hidden">
+            <header class="view-header sticky-header">
+                <button class="back-button">← 返回</button>
+                <h2>题库总览</h2>
+                <div class="search-container">
+                     <input type="search" id="search-input" placeholder="🔍 搜索配方名称...">
+                </div>
+            </header>
+            <div id="library-grid" class="library-grid">
+                <!-- JS 填充所有配方卡片 -->
+            </div>
+        </section>
+
+    </main>
+
+    <!-- ==================================================== -->
+    <!-- 全局组件 (GLOBAL COMPONENTS) -->
+    <!-- ==================================================== -->
+
+    <!-- 设置按钮 (悬浮) -->
+    <button id="settings-btn" class="floating-btn">⚙️</button>
+
+    <!-- 设置模态框 -->
+    <div id="settings-modal" class="modal-overlay hidden">
+        <div class="modal-content">
+            <button id="close-settings-btn" class="close-button">×</button>
+            <h2>全局设置</h2>
+            <div class="setting-item">
+                <label for="dark-mode-toggle">夜间模式</label>
+                <label class="switch">
+                    <input type="checkbox" id="dark-mode-toggle">
+                    <span class="slider round"></span>
+                </label>
+            </div>
+            <div class="setting-item">
+                <label for="font-size-slider">字体大小 (<span>100</span>%)</label>
+                <input type="range" id="font-size-slider" min="80" max="130" value="100">
+            </div>
+            <div class="setting-item danger-zone">
+                <label>重置进度</label>
+                <button id="reset-progress-btn" class="danger-btn">清空所有学习记录</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- 配方详情模态框 (用于题库总览) -->
+    <div id="detail-modal" class="modal-overlay hidden">
+         <div class="modal-content">
+            <button id="close-detail-btn" class="close-button">×</button>
+            <div class="card-header">
+                <p id="detail-modal-category" class="card-category">分类</p>
+                <h3 id="detail-modal-name" class="card-name">产品名称</h3>
+            </div>
+            <div id="detail-modal-content" class="card-content">
+                <!-- JS 填充配方内容 -->
+            </div>
+        </div>
+    </div>
+
+    <!-- 引入JS文件 -->
+    <script src="data.js"></script>
+    <script src="script.js"></script>
+
+</body>
+</html>
